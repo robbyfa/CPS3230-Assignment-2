@@ -1,0 +1,15 @@
+digraph _logic_loginProperty {
+rankdir=LR;
+node [shape = circle]; login alerts starting;
+node [shape = octagon]; invalidLogin;
+node [shape = point]; _s_s;
+_s_s -> starting;
+alerts -> starting [ label = "(1) logout\\loggedIn == false \\System . out . println ( \" Logged out \nEvent log type:  \" + eventLogType ) ; "];
+starting -> invalidLogin [ label = "(1) invalidLogin\\loggedIn == false \\System . out . println ( \" Bad Login \" ) ; "];
+starting -> login [ label = "(2) validLogin\\loggedIn == true \\System . out . println ( \" Login Page. \nEvent log type:  \" + eventLogType + \" \nEmpty:  \" + empty ) ; "];
+starting -> login [ label = "(3) viewAlerts\\loggedIn == true \\System . out . println ( \" Login Page \nEvent log type:  \" + eventLogType ) ; "];
+starting -> alerts [ label = "(4) viewAlerts\\loggedIn == true \\System . out . println ( \" Viewing Alerts. Event log type:  \" + eventLogType ) ; "];
+invalidLogin -> login [ label = "(1) validLogin\\loggedIn == true \\System . out . println ( \" Login Page. \nEvent log type:  \" + eventLogType + \" \nEmpty:  \" + empty ) ; "];
+login -> alerts [ label = "(1) viewAlerts\\loggedIn == true \\System . out . println ( \" Alerts Page \nEvent log type:  \" + eventLogType ) ; "];
+login -> starting [ label = "(2) logout\\loggedIn == false \\System . out . println ( \" Logged out \nEvent log type:  \" + eventLogType ) ; "];
+}
