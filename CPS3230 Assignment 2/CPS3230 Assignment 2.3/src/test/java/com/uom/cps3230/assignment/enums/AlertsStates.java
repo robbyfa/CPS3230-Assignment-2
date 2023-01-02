@@ -5,5 +5,8 @@ public enum AlertsStates {
     LOGGEDIN,
     ALERTS,
     NOTEMPTY,
-    FULL
+    FULL,
+    BADLOGIN,
+    EMPTY,
+    BADUPLOAD
 }

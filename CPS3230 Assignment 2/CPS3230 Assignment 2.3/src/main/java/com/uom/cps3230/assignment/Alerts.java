@@ -1,11 +1,21 @@
 package com.uom.cps3230.assignment;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 class Alerts {
     private boolean loggedIn = false, full = false;
@@ -23,6 +33,11 @@ class Alerts {
         }
     }
 
+    boolean invalidLogin(){
+        loggedIn = false;
+        return true;
+    }
+
     boolean logout() {
         if (loggedIn) {
            loggedIn = false;
@@ -33,26 +48,40 @@ class Alerts {
         }
     }
 
+    public List<String> getValuesForGivenKey(String jsonArrayStr, String key) {
+        JSONArray jsonArray = new JSONArray(jsonArrayStr);
+        return IntStream.range(0, jsonArray.length())
+                .mapToObj(index -> ((JSONObject)jsonArray.get(index)).optString(key))
+                .collect(Collectors.toList());
+    }
+
+
     boolean viewAlerts() throws IOException {
         if(loggedIn) {
-            URL url = new URL("https://api.marketalertum.com/EventsLog/ff557502-1ba4-4578-b094-2efdd4375b1d");
+       /*     URL url = new URL("https://api.marketalertum.com/EventsLog/ff557502-1ba4-4578-b094-2efdd4375b1d");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json");
+            connection.connect();
 
             InputStream inputStream = connection.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder result = new StringBuilder();
-            String line;
-            line = reader.readLine();
-            result.append(line);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(inputStream);
+
+            System.out.println("Test: "+root);
+
+            // Get the array of objects
+            for (JsonNode element : root) {
+                // Get the value of the "name" field
+                eventLogType = element.get("eventLogType").asInt();
 
 
-            System.out.println("Content: "+result.toString());
+                // Print the values
+            }
 
-            reader.close();
             inputStream.close();
             connection.disconnect();
+*/
             eventLogType = 7;
         }
         else{
@@ -61,8 +90,8 @@ class Alerts {
         return true;
     }
 
-    boolean createAlert() throws IOException {
-        if (loggedIn && noOfAlerts <5) {
+    boolean createAlert(boolean goodORbad) throws IOException {
+        if (noOfAlerts <5 && goodORbad) {
 
             URL url = new URL("https://api.marketalertum.com/Alert");
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
@@ -87,18 +116,23 @@ class Alerts {
 
            noOfAlerts++;
            eventLogType = 0;
-        } else if (loggedIn && noOfAlerts>=5) {
+        } else if (noOfAlerts>=5 && goodORbad) {
             full = true;
             eventLogType = 0;
             noOfAlerts++;
-        } else {
+
+        }
+        else if(!goodORbad){
+            status = 400;
+        }
+        else {
             throw new IllegalStateException();
         }
         return true;
     }
 
     boolean fillAlerts() throws IOException {
-        if (loggedIn) {
+
 
             for(int i=0; i<5; i++) {
                 URL url = new URL("https://api.marketalertum.com/Alert");
@@ -125,15 +159,13 @@ class Alerts {
             }
 
             eventLogType = 0;
-        }  else {
-            throw new IllegalStateException();
-        }
+
         return true;
     }
 
 
     boolean deleteAlerts() throws IOException {
-        if (loggedIn) {
+
             full = false;
             noOfAlerts = 0;
             eventLogType = 1;
@@ -146,9 +178,7 @@ class Alerts {
             connection.setRequestProperty("charset", "utf-8");
             connection.connect();
             status = connection.getResponseCode();
-        } else {
-            throw new IllegalStateException();
-        }
+
         return true;
     }
 
