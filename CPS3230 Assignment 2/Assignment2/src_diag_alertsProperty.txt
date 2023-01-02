@@ -1,0 +1,18 @@
+digraph _logic_alertsProperty {
+rankdir=LR;
+node [shape = circle]; notEmpty full empty;
+node [shape = octagon]; badUpload;
+node [shape = point]; _s_s;
+_s_s -> empty;
+badUpload -> notEmpty [ label = "(1) createAlert\\empty == false && status == 201 \\alerts ++ ; System . out . println ( \" Alert created. Number of alerts:  \" + alerts + \" . Event log type:  \" + eventLogType + \" \nEmpty:  \" + empty ) ; "];
+badUpload -> badUpload [ label = "(2) createAlert\\status == 400 \\System . out . println ( \" Bad upload. Number of alerts:  \" + alerts + \" \nStatus:  \" + status ) ; "];
+badUpload -> full [ label = "(3) createAlert\\alerts >= 5 && status == 201 \\alerts ++ ; System . out . println ( \" Alerts full. Number of alerts:  \" + alerts + \" \nStatus:  \" + status + \" \nEventLogType:  \" + eventLogType ) ; "];
+notEmpty -> notEmpty [ label = "(1) createAlert\\alerts < 5 && status == 201 \\alerts ++ ; System . out . println ( \" Alert created. Number of alerts:  \" + alerts + \" \nStatus:  \" + status + \" \nEventLogType:  \" + eventLogType ) ; "];
+notEmpty -> full [ label = "(2) createAlert\\alerts >= 5 && status == 201 \\alerts ++ ; System . out . println ( \" Alerts full. Number of alerts:  \" + alerts + \" \nStatus:  \" + status + \" \nEventLogType:  \" + eventLogType ) ; "];
+notEmpty -> empty [ label = "(3) deleteAlerts\\empty == true && status == 200 \\alerts = 0 ; System . out . println ( \" Alerts deleted. Event log type:  \" + eventLogType + \" \nEmpty:  \" + empty ) ; "];
+notEmpty -> badUpload [ label = "(4) createAlert\\status == 400 \\System . out . println ( \" Bad upload. Number of alerts:  \" + alerts + \" \nStatus:  \" + status ) ; "];
+empty -> notEmpty [ label = "(1) createAlert\\empty == false && status == 201 \\alerts = 0 ; alerts ++ ; System . out . println ( \" Alert created. Number of alerts:  \" + alerts + \" . Event log type:  \" + eventLogType + \" \nEmpty:  \" + empty ) ; "];
+empty -> badUpload [ label = "(2) createAlert\\status == 400 \\System . out . println ( \" Bad upload. Status:  \" + status ) ; "];
+empty -> empty [ label = "(3) deleteAlerts\\empty == true && status == 200 \\alerts = 0 ; System . out . println ( \" Alerts deleted. Event log type:  \" + eventLogType + \" \nEmpty:  \" + empty ) ; "];
+full -> empty [ label = "(1) deleteAlerts\\empty == true && status == 200 \\alerts = 0 ; System . out . println ( \" Alerts deleted. Event log type:  \" + eventLogType + \" \nEmpty:  \" + empty ) ; "];
+}

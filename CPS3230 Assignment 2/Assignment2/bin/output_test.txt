@@ -1,0 +1,71 @@
+[loginProperty]AUTOMATON::> loginProperty() STATE::>starting
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>starting
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>starting
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>starting
+Login Page. 
+Event log type: 5
+Empty: true
+[loginProperty]MOVED ON METHODCALL: void main.testRunner.validLogin(testRunner.Account) TO STATE::> login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+Bad upload. Status: 400
+[alertsProperty]MOVED ON METHODCALL: void main.testRunner.createAlert(testRunner.Account, boolean) TO STATE::> !!!SYSTEM REACHED BAD STATE!!! badUpload 
+aspects._asp_test0.ajc$afterReturning$aspects__asp_test0$9$2a28a79(_asp_test0.aj:90)
+main.testRunner.menu(testRunner.java:241)
+main.testRunner.main(testRunner.java:267) 
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+Bad upload. Number of alerts: 0
+Status: 400
+[alertsProperty]MOVED ON METHODCALL: void main.testRunner.createAlert(testRunner.Account, boolean) TO STATE::> !!!SYSTEM REACHED BAD STATE!!! badUpload 
+aspects._asp_test0.ajc$afterReturning$aspects__asp_test0$9$2a28a79(_asp_test0.aj:90)
+main.testRunner.menu(testRunner.java:241)
+main.testRunner.main(testRunner.java:267) 
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+Bad upload. Number of alerts: 0
+Status: 400
+[alertsProperty]MOVED ON METHODCALL: void main.testRunner.createAlert(testRunner.Account, boolean) TO STATE::> !!!SYSTEM REACHED BAD STATE!!! badUpload 
+aspects._asp_test0.ajc$afterReturning$aspects__asp_test0$9$2a28a79(_asp_test0.aj:90)
+main.testRunner.menu(testRunner.java:241)
+main.testRunner.main(testRunner.java:267) 
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>badUpload
+Alert created. Number of alerts: 1. Event log type: 0
+Empty: false
+[alertsProperty]MOVED ON METHODCALL: void main.testRunner.createAlert(testRunner.Account, boolean) TO STATE::> notEmpty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>notEmpty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>notEmpty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>notEmpty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>notEmpty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>notEmpty
+Alerts deleted. Event log type: 1
+Empty: true
+[alertsProperty]MOVED ON METHODCALL: void main.testRunner.deleteAlerts(testRunner.Account) TO STATE::> empty

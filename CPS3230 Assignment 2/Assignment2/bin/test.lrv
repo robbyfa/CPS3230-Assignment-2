@@ -1,0 +1,86 @@
+
+IMPORTS{
+import main.runner;
+
+}
+GLOBAL {
+	VARIABLES {
+		int alerts = 0;
+		
+	}
+	 
+	EVENTS {
+		validLogin() = {*.validLogin()uponReturning()}
+		viewAlerts() = {*.viewAlerts()uponReturning()}
+		logout() = {*.logout()uponReturning()}
+		invalidLogin() = {*.invalidLogin()uponReturning()}
+		logIn(boolean loggedIn) = {*.setLogged(loggedIn)}
+		setEmpty(boolean empty) = {*.setEmpty(empty)}
+		setStatus(int status) = {*.setStatus(status)}
+		logType(int eventLogType) = {*.setEventLogType(eventLogType)}
+		createAlert() = {*.createAlert()uponReturning()}
+		deleteAlerts() = {*.deleteAlerts()uponReturning()}
+ 	}
+	
+	PROPERTY loginProperty{ 
+		STATES{
+			BAD{
+				invalidLogin
+			}
+			NORMAL{
+				login
+				alerts
+			}
+			STARTING{
+				starting
+			}  
+		}
+		TRANSITIONS{
+			
+			
+			starting -> invalidLogin [invalidLogin\loggedIn == false\System.out.println("Bad Login");]
+			invalidLogin -> login [validLogin\loggedIn == true\System.out.println("Login Page. \nEvent log type: "+eventLogType+"\nEmpty: "+empty);]
+			starting -> login [validLogin\loggedIn == true\System.out.println("Login Page. \nEvent log type: "+eventLogType+"\nEmpty: "+empty);]
+			starting -> login [viewAlerts\loggedIn == true\ System.out.println("Login Page \nEvent log type: "+eventLogType);]
+			starting -> alerts [viewAlerts\loggedIn == true\ System.out.println("Viewing Alerts. Event log type: "+eventLogType);]
+			login -> alerts [viewAlerts\loggedIn == true\ System.out.println("Alerts Page \nEvent log type: "+eventLogType);]
+			login -> starting [logout\loggedIn == false\  System.out.println("Logged out \nEvent log type: "+eventLogType);]
+			alerts -> starting [logout\loggedIn == false\ System.out.println("Logged out \nEvent log type: "+eventLogType);]
+			
+			
+			
+			
+		}
+	}
+			
+		
+		PROPERTY alertsProperty{
+			STATES{
+				BAD{
+					badUpload
+				} 
+				NORMAL{
+					notEmpty
+					full
+				}
+				STARTING{
+					empty
+				}
+			}
+			TRANSITIONS{
+				empty -> notEmpty [createAlert\empty==false && status==201\alerts=0; alerts++;System.out.println("Alert created. Number of alerts: "+alerts+". Event log type: "+eventLogType+"\nEmpty: "+empty);]
+				badUpload -> notEmpty [createAlert\empty==false && status==201\ alerts++;System.out.println("Alert created. Number of alerts: "+alerts+". Event log type: "+eventLogType+"\nEmpty: "+empty);]
+				notEmpty -> notEmpty [createAlert\alerts<5 && status==201\  alerts++;System.out.println("Alert created. Number of alerts: "+alerts+"\nStatus: "+status+"\nEventLogType: "+eventLogType);]
+				notEmpty -> full [createAlert\alerts>=5 && status==201\  alerts++;System.out.println("Alerts full. Number of alerts: "+alerts+"\nStatus: "+status+"\nEventLogType: "+eventLogType);]
+				empty -> badUpload [createAlert\status==400\System.out.println("Bad upload. Status: "+status);]
+				notEmpty -> empty [deleteAlerts\empty==true && status==200\ alerts=0; System.out.println("Alerts deleted. Event log type: "+eventLogType+"\nEmpty: "+empty);]
+				full -> empty [deleteAlerts\empty==true && status==200\ alerts = 0; System.out.println("Alerts deleted. Event log type: "+eventLogType+"\nEmpty: "+empty);]
+				notEmpty ->badUpload [createAlert\status==400\ System.out.println("Bad upload. Number of alerts: "+alerts+"\nStatus: "+status);]
+				empty -> empty [deleteAlerts\empty==true && status==200\ alerts=0; System.out.println("Alerts deleted. Event log type: "+eventLogType+"\nEmpty: "+empty);]
+				badUpload -> badUpload [createAlert\status==400\ System.out.println("Bad upload. Number of alerts: "+alerts+"\nStatus: "+status);]			
+				badUpload -> full [createAlert\alerts>=5 && status==201\  alerts++;System.out.println("Alerts full. Number of alerts: "+alerts+"\nStatus: "+status+"\nEventLogType: "+eventLogType);]			
+			}
+		}
+	
+	}
+	

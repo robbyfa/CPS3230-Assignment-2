@@ -1,0 +1,12 @@
+[loginProperty]AUTOMATON::> loginProperty() STATE::>starting
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>starting
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>starting
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty
+[loginProperty]AUTOMATON::> loginProperty() STATE::>starting
+Login Page. 
+Event log type: 5
+Empty: true
+[loginProperty]MOVED ON METHODCALL: void main.runner.validLogin(runner.Account) TO STATE::> login
+[alertsProperty]AUTOMATON::> alertsProperty() STATE::>empty

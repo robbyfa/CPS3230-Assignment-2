@@ -1,0 +1,73 @@
+GLOBAL {
+	VARIABLES {
+		boolean loggedIn;
+		int badLogins;
+		int status;
+		int alerts = 0;
+		int eventLogType;
+	}
+	
+	EVENTS {
+		validLogin() = {*.validLogin()}
+		viewAlerts() = {*.viewAlerts()}
+		logOut() = {*.logOut()}
+		invalidLogin() = {*.invalidLogin()}
+		logIn(boolean loggedIn)= {*.setLocked(loggedIn)}
+		alertCreated() = {*.alertCreated()}
+		alertsDeleted() = {*.alertsDeleted()}
+	}
+	
+	PROPERTY loginProperty{
+		STATES{
+			BAD{
+				invalidLogin
+			}
+			
+			NORMAL{
+				login
+				alerts
+			}
+			STARTING{
+				starting
+			}
+		}
+		TRANSITIONS{
+			
+			starting -> login [validLogin\loggedIn == false\System.out.println("Login Page");]
+			starting -> login [viewAlerts\loggedIn == false\ System.out.println("Login Page");]
+			loggedIn -> Alerts [viewAlerts\loggedIn == true\System.out.println("Viewed alerts");]
+			loggedIn -> starting [logOut\loggedIn == true\loggedIn = false; System.out.println("Logged out");]
+			Alerts -> starting [logOut\loggedIn == true\loggedIn = false; System.out.println("Logged out");]
+			
+			
+			
+			
+		}
+	}
+			
+		
+		PROPERTY alertsProperty{
+			STATES{
+				BAD{
+					badUpload
+				}
+				NORMAL{
+					goodUpload
+					full
+				}
+				STARTING{
+					starting
+				}
+			}
+			TRANSITIONS{
+				starting -> goodUpload [alertCreated\status == 201\ alerts++;System.out.println("Alert created. Number of alerts: "+alerts);]
+				goodUpload -> goodUpload [alertCreated\alerts<5 && status==201\alerts++;System.out.println("Alert created. Number of alerts: "+alerts);]
+				goodUpload -> full [alertCreated\alerts>=5 && status == 201\alerts++;System.out.println("Alerts full. Number of alerts: "+alerts);]
+				starting -> badUpload [alertCreated\ status == 400\System.out.println("Bad upload. Status alert: "+status);]
+				goodUpload -> starting [alertsDeleted\\status=200;  alerts = 0; System.out.println("Alerts deleted");]
+				full -> starting [alertsDeleted\\status=200;  alerts = 0; System.out.println("Alerts deleted");]
+				goodUpload ->BadUpload [alertCreated\status==400\System.out.println("Bad upload. Number of alerts: "+alerts);]
+			}
+		}
+	
+	}
